@@ -3,7 +3,7 @@ build:
   steps:
     - script:
         name: Update Packages
-        code: yum update -y
+        code: yum clean all; yum update -y
     - script:
         name: Download Dependencies
         code: yum install -y `make build-deps` 
