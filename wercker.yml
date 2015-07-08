@@ -2,9 +2,6 @@ box: joegen/oss_core-centos6:latest
 build:
   steps:
     - script:
-        name: Update Packages
-        code: yum clean all; yum update -y
-    - script:
         name: Download Dependencies
         code: yum clean all; yum install -y `make build-deps` 
     - script: 
