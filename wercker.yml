@@ -1,0 +1,13 @@
+box: joegen/oss_core-centos6:latest
+build:
+  steps:
+    - script:
+        name: Update Packages
+        code: yum update -y
+    - script:
+        name: Download Dependencies
+        code: yum install -y `make build-deps` 
+    - script: 
+        name: Create RPMS
+        code: make
+
