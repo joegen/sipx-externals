@@ -6,7 +6,7 @@ build:
         code: yum clean all; yum update -y
     - script:
         name: Download Dependencies
-        code: yum install -y `make build-deps` 
+        code: yum clean all; yum install -y `make build-deps` 
     - script: 
         name: Create RPMS
         code: make
