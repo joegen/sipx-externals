@@ -22,6 +22,6 @@ rpm: dist
 	@for mod in ${MODULES}; do rpmbuild -ta --define "%_topdir `pwd`/RPMBUILD" `pwd`/RPMBUILD/DIST/$${mod}.tar.gz; done
 
 build-deps:
-	@for mod in ${MODULES}; do grep '^BuildRequires' $${mod}/*.spec | awk '{print $$2}' | sed 's/,/ /g'; done
+	@for mod in ${MODULES}; do grep '^BuildRequires' $${mod}/*.spec | awk '{print $$2}' | sed 's/,/ /g' | sed 's/ /\n/g' ; done | sort -u
 
 

@@ -1,9 +1,6 @@
-box: joegen/oss_core-centos6:latest
+box: joegen/sipx-externals-builder:latest
 build:
   steps:
-    - script:
-        name: Download Dependencies
-        code: yum clean all; yum install -y `make build-deps` 
     - script: 
         name: Create RPMS
         code: make
