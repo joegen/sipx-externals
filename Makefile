@@ -18,8 +18,13 @@ dist:
 	for mod in ${MODULES}; do echo Preparing $${mod}.tar.gz; tar -czf `pwd`/RPMBUILD/DIST/$${mod}.tar.gz $${mod}; done 
 
 
-rpm: dist
-	@for mod in ${MODULES}; do rpmbuild -ta --define "%_topdir `pwd`/RPMBUILD" `pwd`/RPMBUILD/DIST/$${mod}.tar.gz; done
+rpm:
+	@for mod in ${MODULES}; do \
+	rm -rf `pwd`/RPMBUILD/BUILD/*; \
+	rm -rf `pwd`/RPMBUILD/DIST/*; \
+	tar -czf `pwd`/RPMBUILD/DIST/$${mod}.tar.gz $${mod}; \
+	rpmbuild -ta --define "%_topdir `pwd`/RPMBUILD" `pwd`/RPMBUILD/DIST/$${mod}.tar.gz; \
+	done
 
 build-deps:
 	@for mod in ${MODULES}; do grep '^BuildRequires' $${mod}/*.spec | awk '{print $$2}' | sed 's/,/ /g' | sed 's/ /\n/g' ; done | sort -u
