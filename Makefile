@@ -19,11 +19,13 @@ dist:
 
 
 rpm:
-	@for mod in ${MODULES}; do \
-	rm -rf `pwd`/RPMBUILD/BUILD/*; \
-	rm -rf `pwd`/RPMBUILD/DIST/*; \
-	tar -czf `pwd`/RPMBUILD/DIST/$${mod}.tar.gz $${mod}; \
-	rpmbuild -ta --define "%_topdir `pwd`/RPMBUILD" `pwd`/RPMBUILD/DIST/$${mod}.tar.gz; \
+	@rm -rf `pwd`/RPMBUILD; \
+	mkdir -p `pwd`/RPMBUILD/{DIST,BUILD,SOURCES,RPMS,SRPMS,SPECS}; \
+	for mod in ${MODULES}; do \
+		rm -rf `pwd`/RPMBUILD/BUILD/*; \
+		rm -rf `pwd`/RPMBUILD/DIST/*; \
+		tar -czf `pwd`/RPMBUILD/DIST/$${mod}.tar.gz $${mod}; \
+		rpmbuild -ta --define "%_topdir `pwd`/RPMBUILD" `pwd`/RPMBUILD/DIST/$${mod}.tar.gz; \
 	done
 
 build-deps:
