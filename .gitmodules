@@ -1,0 +1,3 @@
+[submodule "oss_core"]
+	path = oss_core
+	url = https://github.com/joegen/oss_core.git

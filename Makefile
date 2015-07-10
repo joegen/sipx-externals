@@ -12,15 +12,32 @@ MODULES = \
 
 all: rpm
 
-dist:
+submodule-init:
+	git submodule update --init --recursive
+
+oss_core-dist:
+	cd oss_core; \
+	git checkout release-2.0.1; \
+	autoreconf -if; \
+	rm -rf .oss_core; mkdir .oss_core ; cd .oss_core; \
+	../configure --disable-dep-check --prefix=`pwd`/build; \
+	make dist; \
+	cp *.tar.gz ../../RPMBUILD/DIST
+
+oss_core-rpm: oss_core-dist
+	rpmbuild -ta --define "%_topdir `pwd`/RPMBUILD" `pwd`/RPMBUILD/DIST/oss_core*.tar.gz; \
+
+submodule-dist: submodule-init oss_core-dist
+	
+rpm-dir:
 	@rm -rf `pwd`/RPMBUILD; \
-	mkdir -p `pwd`/RPMBUILD/{DIST,BUILD,SOURCES,RPMS,SRPMS,SPECS}; \
+	mkdir -p `pwd`/RPMBUILD/{DIST,BUILD,SOURCES,RPMS,SRPMS,SPECS}
+
+dist: rpm-dir submodule-dist
 	for mod in ${MODULES}; do echo Preparing $${mod}.tar.gz; tar -czf `pwd`/RPMBUILD/DIST/$${mod}.tar.gz $${mod}; done 
 
 
-rpm:
-	@rm -rf `pwd`/RPMBUILD; \
-	mkdir -p `pwd`/RPMBUILD/{DIST,BUILD,SOURCES,RPMS,SRPMS,SPECS}; \
+rpm: rpm-dir oss_core-rpm
 	for mod in ${MODULES}; do \
 		rm -rf `pwd`/RPMBUILD/BUILD/*; \
 		rm -rf `pwd`/RPMBUILD/DIST/*; \
@@ -30,5 +47,9 @@ rpm:
 
 build-deps:
 	@for mod in ${MODULES}; do grep '^BuildRequires' $${mod}/*.spec | awk '{print $$2}' | sed 's/,/ /g' | sed 's/ /\n/g' ; done | sort -u
+
+docker-container:
+	docker build -t="joegen/sipx-externals-builder" .; \
+	docker push joegen/sipx-externals-builder
 
 

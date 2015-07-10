@@ -14,13 +14,17 @@ RUN sed -i "s/#baseurl/baseurl/" /etc/yum.repos.d/epel.repo; sed -i "s/mirrorlis
 #
 # Install Dependency Package
 #
+
 RUN yum -y install \
 	automake \
 	bison \
+	bzip2-devel \
 	boost-devel \
 	chrpath \
 	createrepo \
 	db4-devel \
+	elfutils-devel \
+	elfutils-libelf-devel \
 	findutils \
 	flex \
 	gcc-c++ \
@@ -48,13 +52,19 @@ RUN yum -y install \
 	pcre-devel \
 	perl \
 	perl-devel \
-	perl(TAP::Harness) \
+	perl-TAP-Harness-Archive \
+	perl-TAP-Harness-JUnit \
+	perl-ExtUtils-Embed \
 	poco-devel \
+	postgresql-devel \
 	python-devel \
+	python-setuptools \
 	rpm-build \
+	rpm-devel \
 	ruby \
-	rubygem(mocha) \
-	rubygem(rake) \
+	ruby-devel \
+	rubygem-mocha \
+	rubygem-rake \
 	rubygems \
 	scons \
 	tar \
