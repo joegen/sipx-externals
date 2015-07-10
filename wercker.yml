@@ -1,4 +1,6 @@
 box: joegen/sipx-externals-builder:latest
+no-response-timeout: 10
+command-timeout: 120
 build:
   steps:
     - script: 
