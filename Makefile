@@ -37,7 +37,7 @@ dist: rpm-dir submodule-dist
 	for mod in ${MODULES}; do echo Preparing $${mod}.tar.gz; tar -czf `pwd`/RPMBUILD/DIST/$${mod}.tar.gz $${mod}; done 
 
 
-rpm: rpm-dir oss_core-rpm
+rpm: submodule-init rpm-dir oss_core-rpm
 	for mod in ${MODULES}; do \
 		rm -rf `pwd`/RPMBUILD/BUILD/*; \
 		rm -rf `pwd`/RPMBUILD/DIST/*; \
